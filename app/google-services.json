@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "742957211587",
+    "firebase_url": "https://cloudmessage-a7b50.firebaseio.com",
+    "project_id": "cloudmessage-a7b50",
+    "storage_bucket": "cloudmessage-a7b50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742957211587:android:3410195a50eca3ef",
+        "android_client_info": {
+          "package_name": "kim.hyunjaee.bicycle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742957211587-bucs3eu5ofkl302bt68fcr6qdtvme8bi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kim.hyunjaee.bicycle",
+            "certificate_hash": "b10e52345306524f5c93906ac1f6b4c9ebcc8d75"
+          }
+        },
+        {
+          "client_id": "742957211587-jve8uecdhq5b31uglj0u0bcgr1rcs7t9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwM1WH3FK24NF-amItpTVY9ZzdqAY0cOo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742957211587-jve8uecdhq5b31uglj0u0bcgr1rcs7t9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
