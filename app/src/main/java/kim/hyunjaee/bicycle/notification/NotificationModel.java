@@ -23,7 +23,6 @@ public class NotificationModel {
         init();
     }
 
-
     private void init() {
 
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
