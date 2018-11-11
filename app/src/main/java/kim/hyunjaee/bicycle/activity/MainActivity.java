@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void startSignInActivity() {
-        Intent intent = new Intent(this, SignInActivity.class);
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
         finish();
     }
@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         if (!task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "Connect Firebase Fail", Toast.LENGTH_SHORT).show();
                         } else {
-                            FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(MainActivity.this, "Connect Firebase Success", Toast.LENGTH_SHORT).show();
                             startSignInActivity();
                         }

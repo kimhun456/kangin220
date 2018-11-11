@@ -22,9 +22,9 @@ import kim.hyunjaee.bicycle.database.UserDatabaseController;
 import kim.hyunjaee.bicycle.message.MessageSender;
 import kim.hyunjaee.bicycle.notification.NotificationModel;
 
-public class SignInActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
-    private final static String TAG = "SignInActivity";
+    private final static String TAG = "TestActivity";
 
     private EditText mNickNameEditText;
     private Button mConfirmButton;
@@ -90,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled() {
-                Toast.makeText(SignInActivity.this, "Connect error to get All Users.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestActivity.this, "Connect error to get All Users.", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -31,7 +31,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.SignInActivity"></activity>
+        <activity android:name=".activity.TestActivity"></activity>
     </application>
 
 </manifest>
