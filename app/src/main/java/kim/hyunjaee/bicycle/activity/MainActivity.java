@@ -37,6 +37,41 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
 
+    private Button mLoginButton;
+    private Button mLogoutButton;
+
+    private View.OnClickListener mLoginListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        }
+    };
+
+    private View.OnClickListener mLogoutListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(view.getContext());
+            alt_bld.setMessage("로그아웃 하시겠습니까?").setCancelable(false)
+                    .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            signOut();
+                        }
+                    }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog alert = alt_bld.create();
+
+            alert.setTitle("로그아웃");
+
+            alert.show();
+        }
+    };
+
     @Override
     public void onStart() {
         super.onStart();
@@ -56,7 +91,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createGoogleApiClient();
+        initView();
+    }
 
+    private void initView() {
+        mLoginButton = findViewById(R.id.loginBtn);
+        mLoginButton.setOnClickListener(mLoginListener);
+        mLogoutButton = findViewById(R.id.logoutBtn);
+        mLogoutButton.setOnClickListener(mLogoutListener);
+    }
+
+    private void createGoogleApiClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -65,42 +111,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
         mAuth = FirebaseAuth.getInstance();
-
-        Button loginBtn = findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-            }
-        });
-
-        Button logoutBtn = findViewById(R.id.logoutBtn);
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                AlertDialog.Builder alt_bld = new AlertDialog.Builder(view.getContext());
-                alt_bld.setMessage("로그아웃 하시겠습니까?").setCancelable(false)
-                        .setPositiveButton("네", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                signOut();
-                            }
-                        }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = alt_bld.create();
-
-                alert.setTitle("로그아웃");
-
-                alert.show();
-            }
-        });
     }
 
     @Override
@@ -109,30 +120,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
-                //구글 로그인 성공해서 파베에 인증
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null) {
                     firebaseAuthWithGoogle(account);
-                    Toast.makeText(this, "Login Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Google Login Success", Toast.LENGTH_LONG).show();
                 }
             } else {
-                //구글 로그인 실패
-                Toast.makeText(this, "Login Error", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Google Login Error", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "인증 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Connect Firebase Fail", Toast.LENGTH_SHORT).show();
                         } else {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this, "구글 로그인 인증 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Connect Firebase Success", Toast.LENGTH_SHORT).show();
                             startSignInActivity();
                         }
                     }
